@@ -1,0 +1,21 @@
+Backup/*
+bin/*
+obj/*
+lib/*
+publish/*
+build/*
+_ReSharper.*
+glob:*.resharper.*
+glob:Thumbs.db
+glob:.hgignore~
+glob:*.bak
+glob:*.exe
+glob:*.dll
+glob:*.suo
+glob:*.user
+glob:*.orig
+glob:*.rej
+glob:*.patch
+UpgradeLog.*
+_UpgradeReport_Files/*
+syntax: glob

@@ -70,7 +70,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnPropertyMapperTest.cs" />
     <Compile Include="Data\TestMigrations.cs" />
     <Compile Include="MigrationLoaderTest.cs" />
     <Compile Include="MigrationTestCase.cs" />
@@ -79,13 +78,7 @@
     <Compile Include="MigratorTestDates.cs" />
     <Compile Include="ProviderFactoryTest.cs" />
     <Compile Include="Providers\GenericProviderTests.cs" />
-    <Compile Include="Providers\SqlServer2005TransformationProviderTest.cs" />
-    <Compile Include="Providers\MySqlTransformationProviderTest.cs" />
-    <Compile Include="Providers\OracleTransformationProviderTest.cs" />
-    <Compile Include="Providers\PostgreSQLTransformationProviderTest.cs" />
     <Compile Include="Providers\SQLiteTransformationProviderTest.cs" />
-    <Compile Include="Providers\SqlServerCeTransformationProviderTest.cs" />
-    <Compile Include="Providers\SqlServerTransformationProviderTest.cs" />
     <Compile Include="Providers\TransformationProviderBase.cs" />
     <Compile Include="Providers\TransformationProviderConstraintBase.cs" />
     <Compile Include="ScriptEngineTests.cs" />

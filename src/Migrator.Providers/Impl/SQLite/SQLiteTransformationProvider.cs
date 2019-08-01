@@ -16,9 +16,16 @@ namespace Migrator.Providers.SQLite
     /// </summary>
     public class SQLiteTransformationProvider : TransformationProvider
     {
+        public SQLiteTransformationProvider(Dialect dialect, SqliteConnection connection)
+            : base(dialect, null)
+        {
+            m_existingConnection = false;
+            _connection = connection;
+        }
         public SQLiteTransformationProvider(Dialect dialect, string connectionString)
             : base(dialect, connectionString)
         {
+            m_existingConnection = true;
             _connection = new SqliteConnection(_connectionString);
             _connection.ConnectionString = _connectionString;
             _connection.Open();
@@ -174,12 +181,16 @@ namespace Migrator.Providers.SQLite
         {
             if (null == parts)
                 return null;
-                
+
+            var result = new List<string>(); 
             for (int i = 0; i < parts.Length; i ++) 
             {
-                parts[i] = ExtractNameFromColumnDef(parts[i]);
+                var part = ExtractNameFromColumnDef(parts[i]);
+                if (part.Equals("constraint", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                result.Add(part);
             }
-            return parts;
+            return result.ToArray();
         }
 
         /// <summary>
@@ -211,7 +222,7 @@ namespace Migrator.Providers.SQLite
             
             sqldef = sqldef.Replace(Environment.NewLine, " ");
             int start = sqldef.IndexOf("(");
-            int end = sqldef.IndexOf(")");
+            int end = sqldef.LastIndexOf(")");
             
             sqldef = sqldef.Substring(0, end);
             sqldef = sqldef.Substring(start + 1);

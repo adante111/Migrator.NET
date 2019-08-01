@@ -31,6 +31,7 @@ namespace Migrator.Providers
 		protected IDbConnection _connection;
 		private IDbTransaction _transaction;
 		private List<long> _appliedMigrations;
+	    protected bool m_existingConnection;
 
 		protected readonly string _connectionString;
 		protected Dialect _dialect;
@@ -844,7 +845,7 @@ namespace Migrator.Providers
 
         public void Dispose()
         {
-            if (_connection != null && _connection.State == ConnectionState.Open)
+            if (!m_existingConnection && _connection != null && _connection.State == ConnectionState.Open)
             {
                 _connection.Close();
             }
