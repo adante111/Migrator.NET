@@ -563,7 +563,8 @@ namespace Migrator.Providers
                     Logger.Warn(ex.Message);
                     throw;
                 }
-            }		}
+            }
+		}
 
 		private IDbCommand BuildCommand(string sql)
 		{
@@ -596,7 +597,8 @@ namespace Migrator.Providers
                     Logger.Warn("query failed: {0}", cmd.CommandText);
                     throw;
                 }
-            }		}
+            }
+		}
 
 		public object ExecuteScalar(string sql)
 		{
@@ -612,7 +614,8 @@ namespace Migrator.Providers
                     Logger.Warn("Query failed: {0}", cmd.CommandText);
                     throw;
                 }
-            }		}
+            }
+		}
 
 		public IDataReader Select(string what, string from)
 		{

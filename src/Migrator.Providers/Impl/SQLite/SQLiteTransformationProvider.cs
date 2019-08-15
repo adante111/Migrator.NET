@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
+using System.Linq;
 using Migrator.Framework;
 using ForeignKeyConstraint=Migrator.Framework.ForeignKeyConstraint;
-#if DOTNET2
-using SqliteConnection=System.Data.SQLite.SQLiteConnection;
-#else
-using Mono.Data.Sqlite;
-#endif
 
 namespace Migrator.Providers.SQLite
 {
@@ -16,7 +13,7 @@ namespace Migrator.Providers.SQLite
     /// </summary>
     public class SQLiteTransformationProvider : TransformationProvider
     {
-        public SQLiteTransformationProvider(Dialect dialect, SqliteConnection connection)
+        public SQLiteTransformationProvider(Dialect dialect, SQLiteConnection connection)
             : base(dialect, null)
         {
             m_existingConnection = false;
@@ -26,7 +23,7 @@ namespace Migrator.Providers.SQLite
             : base(dialect, connectionString)
         {
             m_existingConnection = true;
-            _connection = new SqliteConnection(_connectionString);
+            _connection = new SQLiteConnection(_connectionString);
             _connection.ConnectionString = _connectionString;
             _connection.Open();
         }
@@ -57,9 +54,10 @@ namespace Migrator.Providers.SQLite
             }
             
             string[] newColDefs = colDefs.ToArray();
-            string colDefsSql = String.Join(",", newColDefs);
-             
-            string[] colNames = ParseSqlForColumnNames(newColDefs);
+            string[] newColDefsNoForeignKeys = newColDefs.Where(x => !x.Trim().StartsWith("constraint", StringComparison.OrdinalIgnoreCase)).ToArray();
+            string colDefsSql = String.Join(",", newColDefsNoForeignKeys);
+
+            string[] colNames = ParseSqlForColumnNames(newColDefsNoForeignKeys);
             string colNamesSql = String.Join(",", colNames);
             
             AddTable(table + "_temp", null, colDefsSql);
@@ -186,7 +184,9 @@ namespace Migrator.Providers.SQLite
             for (int i = 0; i < parts.Length; i ++) 
             {
                 var part = ExtractNameFromColumnDef(parts[i]);
-                if (part.Equals("constraint", StringComparison.OrdinalIgnoreCase))
+                if (part.Trim().Equals("constraint", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (part.Trim().Equals("primary", StringComparison.OrdinalIgnoreCase))
                     continue;
                 result.Add(part);
             }
