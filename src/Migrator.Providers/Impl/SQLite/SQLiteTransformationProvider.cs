@@ -54,7 +54,7 @@ namespace Migrator.Providers.SQLite
             }
             
             string[] newColDefs = colDefs.ToArray();
-            string[] newColDefsNoForeignKeys = newColDefs.Where(x => !x.Trim().StartsWith("constraint", StringComparison.OrdinalIgnoreCase)).ToArray();
+            string[] newColDefsNoForeignKeys = newColDefs.Where(x => !x.Trim().StartsWith("constraint ", StringComparison.OrdinalIgnoreCase)).ToArray();
             string colDefsSql = String.Join(",", newColDefsNoForeignKeys);
 
             string[] colNames = ParseSqlForColumnNames(newColDefsNoForeignKeys);
