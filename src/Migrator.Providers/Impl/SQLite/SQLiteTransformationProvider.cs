@@ -226,13 +226,34 @@ namespace Migrator.Providers.SQLite
             
             sqldef = sqldef.Substring(0, end);
             sqldef = sqldef.Substring(start + 1);
-            
-            string[] cols = sqldef.Split(new char[]{','});
-            for (int i = 0; i < cols.Length; i ++) 
+
+            List<string> cols = new List<string>();
+            string[] tokens = sqldef.Split(',');
+            int brackets = 0;
+            string existing = "";
+            foreach (string token in tokens)
             {
-                cols[i] = cols[i].Trim();
+                brackets += token.Count(x => x == '(') - token.Count(x => x == ')');
+
+                if (brackets == 0)
+                {
+                    if (string.IsNullOrWhiteSpace(existing))
+                        cols.Add(token.Trim());
+                    else
+                        cols.Add((existing + "," + token).Trim());
+
+                    existing = "";
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(existing))
+                        existing = token;
+                    else
+                        existing += "," + token;
+                }
             }
-            return cols;
+
+            return cols.ToArray();
         }
         
         public bool ColumnMatch(string column, string columnDef)
