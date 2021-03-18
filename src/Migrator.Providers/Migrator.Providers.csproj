@@ -90,13 +90,13 @@
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x86' ">
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\lib\sqlite-netFx451-static-binary-bundle-x64-2013-1.0.113.0\System.Data.SQLite.DLL</HintPath>
+      <HintPath>..\..\..\sqlite-netFx451-static-binary-bundle-Win32-2013-1.0.113.0\System.Data.SQLite.DLL</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\lib\sqlite-netFx451-static-binary-bundle-x64-2013-1.0.113.0\System.Data.SQLite.DLL</HintPath>
+      <HintPath>..\..\..\sqlite-netFx451-static-binary-bundle-x64-2013-1.0.113.0\System.Data.SQLite.DLL</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
