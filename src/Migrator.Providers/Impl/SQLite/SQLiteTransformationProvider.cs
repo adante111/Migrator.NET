@@ -220,6 +220,7 @@ namespace Migrator.Providers.SQLite
                 return null;
             }
             
+            sqldef = sqldef.Replace('\t', ' ');
             sqldef = sqldef.Replace(Environment.NewLine, " ");
             int start = sqldef.IndexOf("(");
             int end = sqldef.LastIndexOf(")");
